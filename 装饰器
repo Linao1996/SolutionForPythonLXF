@@ -1,0 +1,23 @@
+import functools
+import time
+
+
+def metric(fn):
+    functools.wraps(fn)
+
+    def wrapper(*args, **kw):
+        time1 = time.time()
+        fn(*args, **kw)
+        time2 = time.time()
+        print('%s executed in %.4f ms' %(fn.__name__, time2 - time1))
+        return fn
+
+    return wrapper
+
+
+@metric
+def f():
+    time.sleep(0.12)
+    print('hello,world')
+
+f()
