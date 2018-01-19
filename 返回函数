@@ -1,0 +1,34 @@
+
+
+第一种创造一个生成器
+
+    def createCounter():
+        def f():
+            n=0
+            while True:
+                n=n+1
+                yield n     #先创造一个生成器
+        sun=f()
+        def counter():
+            return next(sun)   #用一个函数来调用生成器
+        return counter
+
+第二种：使用列表（列表list是全局变量）
+
+    def createCounter():
+        fs = [0]          #创建一个只有一个元素的列表
+        def counter():
+            fs[0] = fs[0] + 1
+            return fs[0]
+        return counter
+
+第三种：使用nonlocal关键字，将局部变量变成全局变量
+
+    def createCounter():
+        n=0
+        def f():
+            nonlocal n
+            n=n+1
+            return n
+        return f
+
