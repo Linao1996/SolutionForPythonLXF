@@ -14,3 +14,21 @@ for f in os.listdir(pwd):
     mtime = str(datetime.fromtimestamp(os.path.getmtime(f))).split('.')[0]
     flag = '/' if os.path.isdir(f) else ''
     print('%10d\t%s\t\t%s%s' %(size,mtime,f,flag))
+
+    
+    
+2、
+import os
+def find(key, road):
+    for f in os.listdir(road):
+        file_path = os.path.join(road, f)
+        if not os.access(file_path, os.R_OK):
+            continue
+        if os.path.isfile(file_path) and key in file_path:
+            print(file_path)
+        elif os.path.isdir(file_path):
+            find(key, file_path)
+
+
+a = os.getcwd()
+find('py', '/')
