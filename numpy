@@ -19,55 +19,37 @@ world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1,
 uruguay_other_1986 = world_alcohol[1][4]
 third_country = world_alcohol[2][2]
 
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+countries_canada = (world_alcohol[:, 2] == 'Canada')
+years_1984 = (world_alcohol[:, 0] == '1984')
 
-
-
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-countries_canada = (world_alcohol[:,2] == 'Canada')
-years_1984 =(world_alcohol[:,0] == '1984')
-
-
-
-
-
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-is_algeria_and_1986 = (world_alcohol[:,0] == '1986')&(world_alcohol[:,2]=='Algeria')
-rows_with_algeria_and_1986 = world_alcohol[is_algeria_and_1986,:]
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+is_algeria_and_1986 = (world_alcohol[:, 0] == '1986') & (world_alcohol[:, 2] == 'Algeria')
+rows_with_algeria_and_1986 = world_alcohol[is_algeria_and_1986, :]
 print(rows_with_algeria_and_1986)
 
-
-
-
-
-worldalcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-is_1986 = (world_alcohol[:,0] == '1986')
-world_alcohol[is_1986,0] = '2014'
-is_wine = (world_alcohol[:,3] == 'Wine')
-world_alcohol[is_wine,3] = 'Grog'
-
-
-
+worldalcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+is_1986 = (world_alcohol[:, 0] == '1986')
+world_alcohol[is_1986, 0] = '2014'
+is_wine = (world_alcohol[:, 3] == 'Wine')
+world_alcohol[is_wine, 3] = 'Grog'
 
 import numpy as np
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-is_value_empty = world_alcohol[:,4] == ''
-world_alcohol[is_value_empty,4] = '0'
 
-
-
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+is_value_empty = world_alcohol[:, 4] == ''
+world_alcohol[is_value_empty, 4] = '0'
 
 import numpy as np
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-alcohol_consumption = world_alcohol[:,4]
+
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+alcohol_consumption = world_alcohol[:, 4]
 is_empty = alcohol_consumption == ''
 alcohol_consumption[is_empty] = '0'
 alcohol_comsumption = alcohol_consumption.astype(float)
 
-
-
-
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-alcohol_consumption = world_alcohol[:,4]
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+alcohol_consumption = world_alcohol[:, 4]
 is_empty = alcohol_consumption == ''
 alcohol_consumption[is_empty] = '0'
 alcohol_consumption = alcohol_consumption.astype(float)
@@ -76,13 +58,30 @@ average_alcohol = alcohol_consumption.mean()
 print(total_alcohol)
 print(average_alcohol)
 
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
 
-
-world_alcohol = np.genfromtxt('world_alcohol.csv',delimiter = ',',skip_header = 1,dtype = 'U75')
-
-is_canada_1986 = (world_alcohol[:,0] == '1986') & (world_alcohol[:,2] == 'Canada')
-canada_1986 = world_alcohol[is_canada_1986,:]
-is_empty = canada_1986[:,4] == ''
-canada_1986[is_empty,4] = '0'
-canada_alcohol = canada_1986[:,4].astype(float)
+is_canada_1986 = (world_alcohol[:, 0] == '1986') & (world_alcohol[:, 2] == 'Canada')
+canada_1986 = world_alcohol[is_canada_1986, :]
+is_empty = canada_1986[:, 4] == ''
+canada_1986[is_empty, 4] = '0'
+canada_alcohol = canada_1986[:, 4].astype(float)
 total_canadian_drinking = canada_alcohol.sum()
+
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+totals = {}
+for country in countries:
+    is_country_1989 = (world_alcohol[:, 0] == '1989') & (world_alcohol[:, 2] == country)
+    country_1989 = world_alcohol[is_country_1989, :]
+    is_empty = country_1989[:,4] == ''
+    country_1989[is_empty,4] ='0'
+    totals[country] = country_1989[:,4].sum()
+
+world_alcohol = np.genfromtxt('world_alcohol.csv', delimiter=',', skip_header=1, dtype='U75')
+totals = {}
+for country in countries:
+    is_country_1989 = (world_alcohol[:, 0] == '1989') & (world_alcohol[:, 2] == country)
+    country_1989 = world_alcohol[is_country_1989, :]
+    is_empty = country_1989[:,4] == ''
+    country_1989[is_empty,4] ='0'
+    country_1989_alcohol = country_1989[:,4].astype(float)
+    totals[country] = country_1989_alcohol.sum()
