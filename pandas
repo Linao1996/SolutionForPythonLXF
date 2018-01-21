@@ -1,5 +1,33 @@
 import pandas
+
+
+
 food_info = pandas.read_csv('food_info.csv')
 print(type(food_info))
-
 first_twenty = food_info.head(20)
+print(food_info.dtypes)
+
+
+
+num_rows = food_info.shape[0]
+last_rows = food_info.loc[num_rows-5:num_rows-1] #".loc[] will include both the start and the end row."
+print(last_rows)
+print(food_info.loc[[2,5,10]])
+
+
+
+saturated_fat = food_info['FA_Sat_(g)']
+cholesterol = food_info['Cholestrl_(mg)']
+
+
+
+strlist = ['Selenium_(mcg)','Thiamin_(mg)']
+selenium_thiamin = food_info[strlist]
+
+
+
+column_names = food_info.columns.tolist()
+gram_columns = [ x for x in column_names if x.endswith('(g)')]
+gram_df = food_info[gram_columns]
+print(food_info.columns)
+print(food_info.head(2))
