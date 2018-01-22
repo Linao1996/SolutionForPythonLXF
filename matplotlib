@@ -1,0 +1,67 @@
+import matplotlib.pyplot as plt
+
+import numpy as np
+import pandas as pd
+
+# fig = plt.figure()
+# ax1 = fig.add_subplot(2, 2, 1)
+# ax2 = fig.add_subplot(2, 2, 2)
+# ax3 = fig.add_subplot(2, 2, 3)
+# plt.plot(np.random.randn(50).cumsum(), 'k--')
+# ax1.hist(np.random.randn(2000000), bins=200, color='r',
+#          alpha=1)  # alpha means transparence,bins means the number of edges
+# ax2.scatter(np.arange(30), np.arange(30) + 3 * np.random.randn(30))
+
+# plt.show()
+
+# fig, axes = plt.subplots(2, 2)
+#
+# data = np.random.randn(30).cumsum()
+# plt.plot(data, 'm|',label = 'steps-post',drawstyle = 'steps-post')
+# plt.legend(loc = 'best') #best means self-adaption
+# plt.xlim([0,10])
+# plt.show()
+
+
+# fig = plt.figure()
+# ax = fig.add_subplot(1, 1, 1)
+# ax.plot(np.random.randn(1000).cumsum(), 'k-', label='one', linewidth=1)
+# ax.plot(np.random.randn(1000).cumsum(), 'm-', label='two', linewidth=1)
+# ax.plot(np.random.randn(1000).cumsum(), 'g-', label='three', linewidth=1)
+# ax.set_title('My fist Matplotlib plot')
+# ax.set_xticks([0, 250, 500, 750, 1000])
+# ax.set_xticklabels(['one', 'two', 'three', 'four', 'five'], rotation=30, fontsize='small')
+# ax.set_xlabel('Stages')
+# ax.set_yticks([-50, 0, 50])
+# ax.set_ylabel('Cumsum')
+# ax.legend(loc='best')
+# ax.text(100, 10, 'Hello world', family='monospace', fontsize=10)
+# plt.show()
+
+
+from datetime import datetime
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+data = pd.read_csv('book/ch08/spx.csv', index_col=0, parse_dates=True)
+spx = data['SPX']  # Series
+
+spx.plot(ax=ax, style='k-')
+
+crisis_data = [
+    (datetime(2007, 10, 11), 'Perk of bull market'),
+    (datetime(2008, 3, 12), 'Bear Steam Fails'),
+    (datetime(2008, 9, 15), 'Lehman Bankruptcy')
+]
+for date, label in crisis_data:
+    ax.annotate(label, xy=(date, spx.asof(date) + 50),
+                xytext=(date, spx.asof(date) + 200),
+                arrowprops=dict(facecolor='red'),
+                # horizontalalignment='left', verticalalignment='top'
+                )
+
+ax.set_xlim('1/1/2007', '1/1/2011')
+ax.set_ylim(600, 1800)
+plt.savefig('figpath2.png', dpi=4000)
+# plt.show()
+        
