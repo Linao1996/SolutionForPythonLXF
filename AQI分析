@@ -1,0 +1,36 @@
+from basemap import Basemap
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import os
+from datetime import datetime
+
+
+def get_frame(path):
+    frames = []
+    for filename in os.listdir(path):
+        filepath = os.path.join(path, filename)
+        if filepath.split('.')[1] == 'csv':
+            try:
+                frame = pd.read_csv(filepath, parse_dates=True, index_col=0)  # use the first column as index
+                frame = frame[(frame.type == 'PM2.5') & (frame.hour == 8)]
+                frames.append(frame)
+            except Exception:
+                continue
+    return frames
+
+
+frames = get_frame('AQI2017')
+data = pd.concat(frames)
+data = data.sort_index()
+cities = ['北京', '天津', '上海', '重庆']
+data = data[cities]
+fig, axes = plt.subplots(2, 2)
+
+styles = ['k-', 'r-', 'm-', 'g-']
+
+for i in range(4):
+    axes.flat[i].plot(data[cities[i]],styles[i])
+    axes.flat[i].set_ylim(0,500)
+plt.show()
+# print(data)
