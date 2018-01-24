@@ -1,0 +1,145 @@
+from basemap import Basemap
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import os
+from datetime import datetime
+from PIL import Image
+import json
+from bs4 import BeautifulSoup
+import unicodedata
+import requests
+import re
+
+html_doc = """
+<html><head><title>The Dormouse's story</title></head>
+<body>
+<p class="title"><b>The Dormouse's story</b></p>
+
+<p class="story">Once upon a time there were three little sisters; and their names were
+<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+and they lived at the bottom of a well.</p>
+
+<p class="story">...</p>
+"""
+
+soup = BeautifulSoup(html_doc)
+# print(soup.prettify())
+# print(soup.title)
+# print(soup.title.name)
+# print(soup.title.string)
+# print(soup.title.parent.name)
+# print(soup.p)
+# print(soup.p['class'])
+# print(soup.a)
+# print(soup.find_all('a'))
+# print(soup.find(id = 'link3'))
+# print(soup.get_text)
+
+# for link in soup.find_all('a'): #find_all return a list
+#     print(link.get('href')) #it seems to have the same effect as link['href']
+
+
+# response = requests.get('http://datacenter.mep.gov.cn/index')
+# soup = BeautifulSoup(response.text)
+# for link in soup.find_all('a'):
+#     print(link.get('href'))
+
+
+
+soup = BeautifulSoup('<b class="boldest">Extremely bold</b>')
+tag = soup.b
+# print(type(tag))  # Tag
+# print(tag.name)  # Tag
+tag.name = 'blockquote'
+# print(tag)
+# print(tag['class'])
+# print(tag.attrs)
+tag['class'] = 'verybold'
+tag['id'] = 1  # add a new attribute
+
+del tag['class']
+del tag['id']
+# print(tag)
+
+
+css_soup = BeautifulSoup('<p class="a new world"></p>')
+# print(css_soup.p['class'])  # !!! it is ['a','new','world'], since class is multi-valued attribute
+
+
+id_soup = BeautifulSoup('<p id = "my id"></p>')
+# print(id_soup.p['id'])  # just 'my id' since id is not multi-valued attribute
+
+
+
+rel_soup = BeautifulSoup('<p>Back to the <a rel="index">homepage</a></p>')
+# print(rel_soup.a['rel'])
+rel_soup.a['rel'] = ["index", "contents"]
+# print(rel_soup.p)
+
+xml_soup = BeautifulSoup('<p class="body strikeout"></p>', 'xml')
+# print(xml_soup.p['class']) #just 'body strikeout', since xml has no multi-valued attrs
+
+# print(tag.string)
+# print(type(tag.string))
+# unicode_string = unicode(tag.string)
+tag.string.replace_with("No longer bold")  # string in tag can't be edited, but can be replaced with
+
+soup = BeautifulSoup(html_doc)
+head_tag = soup.head
+# print(head_tag.contents)  # return a list of child tag,i.e.[<title>The Dormouse's story</title>]
+title_tag = head_tag.contents[0]
+# print(title_tag.contents)  # [u'The Dormouse's story']
+
+text = title_tag.contents[0]
+# print(text.contents) # Attribute error, we can't go on and on, since in the end we get a simple NavigableString which has no attribute 'content'
+
+# for child in title_tag.children:
+#     print(child)
+
+# .contents .children only contains its direct descendants
+# to get all of its descendants, you have to use :
+
+# print(head_tag)
+
+# for child in head_tag.descendants: #yet if you print(head_tag.descendant, you get a generator
+#     print(child)
+
+# print(head_tag.descendants)#generator
+
+# print(len(list(soup.children))) #1
+# print(len(list(soup.descendants))) #26
+
+
+# for string in soup.strings:
+#     print(repr(string))
+
+title_tag = soup.title
+
+# print(title_tag)
+# print(title_tag.string.parent) # same with the above line
+
+html_tag = soup.html
+# print(type(html_tag.parent))  #of type BeautifulSoup
+
+# print(soup.name) # document
+# for parent in title_tag.parents:
+#     if parent is None:
+#         print(None)
+#     else:
+#         print(parent.name)
+
+if re.match('t', 'html'):
+    print('OK')
+else:
+    print('Failed')
+
+for tag in soup.find_all(re.compile('t')):  # don't get it why it return all tag contains t instead of t itself
+    print(tag.name)
+
+print(soup)
+for tag in soup.find_all(attrs={"class": "sister"}):
+    print(tag)
+
