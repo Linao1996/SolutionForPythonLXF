@@ -1,0 +1,41 @@
+from basemap import Basemap
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import os
+from datetime import datetime
+from PIL import Image
+import json
+
+import requests
+
+response = requests.get('https://foofish.net')
+# print('status:', response.status_code)
+# print('reason:', response.reason)
+# for name, value in response.headers.items():
+#     print('%s: %s' % (name, value))  # print(response.text)
+#
+# print('content:', response.content)
+# print(response.headers['Content-Type'])
+
+payload = {'key1': 'value1', 'key2': 'value2'}
+header = {'user-agent': 'Mozilla/5.0'}
+
+r = requests.get("http://httpbin.org/get", params=payload, headers=header)
+
+url = 'http://httpbin.org/post'
+r = requests.post(url, json=payload)
+# print(type(response.content))  # of class bytes
+
+with open('test', 'wb') as f:
+    for chunk in r.iter_content(10):
+        f.write(chunk)
+
+url = 'http://example.com/some/cookie/setting/url'
+r = requests.get(url)
+# print(r.cookies['example_cookie_name'])
+
+url = 'http://httpbin.org/cookies'
+cookies = dict(cookies_are='working')
+r = requests.get(url, cookies=cookies)
+print(r.text)
